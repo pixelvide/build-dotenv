@@ -127,7 +127,7 @@ func main() {
 			key := keyValue[0]
 			value := strings.Join(keyValue[1:], "")
 
-			envData[string(key)] = value
+			envData[key] = value
 		}
 	}
 
@@ -143,14 +143,18 @@ func main() {
 			panic(err)
 		}
 		for key, val := range sec {
-			envData[string(key)] = string(val)
+			envData[key] = val
 		}
 	}
 
 	result := make([]string, 0)
 	for key, val := range envData {
 		if key != "" {
-			result = append(result, string(key)+"="+string(val))
+			if strings.HasPrefix(val, "/") {
+				result = append(result, string(key)+"="+val+"")
+			} else {
+				result = append(result, string(key)+"=\""+val+"\"")
+			}
 		}
 	}
 
