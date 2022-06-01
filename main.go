@@ -21,6 +21,8 @@ func getSecret(secretName string) string {
 		profile = os.Getenv("DOTENV_AWS_PROFILE")
 	}
 
+	fmt.Println(profile)
+
 	sess, err := session.NewSessionWithOptions(session.Options{
 		Profile: profile,
 	})
