@@ -16,10 +16,9 @@ import (
 )
 
 func getSecret(secretName string) string {
-
 	profile := "pixelvide"
-	if _, ok := os.LookupEnv("AWS_ROLE_ARN"); ok {
-		profile = os.Getenv("AWS_PROFILE")
+	if _, ok := os.LookupEnv("DOTENV_AWS_PROFILE"); ok {
+		profile = os.Getenv("DOTENV_AWS_PROFILE")
 	}
 
 	sess, err := session.NewSessionWithOptions(session.Options{
@@ -31,7 +30,7 @@ func getSecret(secretName string) string {
 	}
 
 	// Create a Secrets Manager client
-	svc := secretsmanager.New(sess)
+	svc := secretsmanager.New(sess, &aws.Config{})
 
 	input := &secretsmanager.GetSecretValueInput{
 		SecretId:     aws.String(secretName),
@@ -90,7 +89,7 @@ func getSecret(secretName string) string {
 func main() {
 	envData := make(map[string]string)
 
-	targetFilePath, ok := os.LookupEnv("TARGET_FILE_PATH")
+	targetFilePath, ok := os.LookupEnv("DOTENV_FILE_PATH")
 	if !ok {
 		targetFilePath = ".env"
 	}
