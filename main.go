@@ -23,13 +23,9 @@ func getSecret(secretName string) string {
 
 	fmt.Println(profile)
 
-	sess, err := session.NewSessionWithOptions(session.Options{
+	sess := session.Must(session.NewSessionWithOptions(session.Options{
 		Profile: profile,
-	})
-
-	if err != nil {
-		panic(err)
-	}
+	}))
 
 	// Create a Secrets Manager client
 	svc := secretsmanager.New(sess, &aws.Config{})
