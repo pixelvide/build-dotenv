@@ -24,7 +24,7 @@ func getSecret(secretName string) string {
 	fmt.Println(profile)
 
 	sess, err := session.NewSessionWithOptions(session.Options{
-		Profile: profile,
+		// Profile: profile,
 	})
 
 	if err != nil {
